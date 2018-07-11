@@ -1,0 +1,3 @@
+---
+# vars file for lagoon.configuration
+config_dir: "{{input_dir}}"

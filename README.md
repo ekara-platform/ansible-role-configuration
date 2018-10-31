@@ -13,7 +13,7 @@ Role Variables
 
 - input_dir: input directory to load configuration files. 
 
-This role returns a dict variable : **lagoon_configuration_params** which contains all configuration.
+This role returns a dict variable : **ekara_configuration_params** which contains all configuration.
 
 
 Dependencies
@@ -27,7 +27,7 @@ Example Playbook
 
     - hosts: localhost
       roles:
-         - { role: lagoon.configuration, config_dir: /opt/inputs }
+         - { role: ekara.configuration, config_dir: /opt/inputs }
 
 License
 -------
@@ -37,4 +37,4 @@ MIT
 Author Information
 ------------------
 
-https://github.com/lagoon-platform/ansible-role-configuration
+https://github.com/ekara-platform/ansible-role-configuration

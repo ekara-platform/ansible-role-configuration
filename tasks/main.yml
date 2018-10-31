@@ -1,24 +1,24 @@
 ---
-# tasks file for lagoon.configuration
+# tasks file for ekara.configuration
 - name: Load params configuration
   include_vars:
     dir: "{{config_dir}}"
     extensions:
     - yml
     - yaml
-    name: lagoon_configuration_params
+    name: ekara_configuration_params
     depth: 1
 
 - name: Set Provider
   set_fact:
-    lagoon_provider: "{{lagoon_configuration_params.connectionConfig.provider}}"
+    ekara_provider: "{{ekara_configuration_params.connectionConfig.provider}}"
 
 - name: Check map files
-  local_action: stat path="{{lagoon_configuration_params.component_path[lagoon_provider]}}/map-variables.yml"
+  local_action: stat path="{{ekara_configuration_params.component_path[ekara_provider]}}/map-variables.yml"
   register: map_files
 
 - name: Map Provider inventory variables
   include_vars:
-    file: "{{lagoon_configuration_params.component_path[lagoon_provider]}}/map-variables.yml"
-    name: lagoon_provider_map
+    file: "{{ekara_configuration_params.component_path[ekara_provider]}}/map-variables.yml"
+    name: ekara_provider_map
   when: map_files.stat.exists == True

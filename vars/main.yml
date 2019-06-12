@@ -1,3 +1,0 @@
----
-# vars file for ekara.configuration
-config_dir: "{{input_dir}}"

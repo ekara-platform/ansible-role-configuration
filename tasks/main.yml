@@ -1,24 +1,40 @@
 ---
-# tasks file for ekara.configuration
-- name: Load params configuration
+# tasks file for ekara.config
+- name: Check required play variables
+    fail: msg="Required play variable '{{item}}' is missing"
+    when: item not in vars
+    with_items: {{['input_dir', 'output_dir'] + required_vars}}
+
+- name: Check required play environment variables
+    fail: msg="Required environment variable '{{item}}' is missing"
+    when: not lookup('env', item)
+    with_items: {{required_env_vars}}
+
+- name: Load ekara config
   include_vars:
-    dir: "{{config_dir}}"
-    extensions:
-    - yml
-    - yaml
-    name: ekara_configuration_params
+    dir: "{{input_dir}}"
     depth: 1
+    files_matching:
+      - params.yaml
+    name: ek_config
 
-- name: Set Provider
-  set_fact:
-    ekara_provider: "{{ekara_configuration_params.connectionConfig.provider}}"
+- name: Check required SSH info
+    fail: msg="Required SSH parameter '{{item}}' is missing"
+    when: item not in ek_config.connectionConfig
+    with_items:
+      - machine_private_key
+      - machine_public_key
 
-- name: Check map files
-  local_action: stat path="{{ekara_configuration_params.component_path[ekara_provider]}}/map-variables.yml"
-  register: map_files
+- name: Check required environment info
+    fail: msg="Required environment parameter '{{item}}' is missing"
+    when: item not in ek_config.environment
+    with_items:
+      - id
+      - name
+      - qualifier
 
-- name: Map Provider inventory variables
-  include_vars:
-    file: "{{ekara_configuration_params.component_path[ekara_provider]}}/map-variables.yml"
-    name: ekara_provider_map
-  when: map_files.stat.exists == True
+- name: Check required parameters
+    fail: msg="Required ekara input parameter '{{item}}' is missing"
+    when: item not in ek_config.params
+    with_items: {{required_params}}
+

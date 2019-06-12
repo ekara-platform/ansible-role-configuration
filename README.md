@@ -1,7 +1,7 @@
 Role Name
 =========
 
-Role to use to load all platform configuration.
+Role used to load ekara configuration file and check for required play vars, environment vars and ekara parameters.
 
 Requirements
 ------------
@@ -11,30 +11,33 @@ None.
 Role Variables
 --------------
 
-- input_dir: input directory to load configuration files. 
+- input_dir: input directory to load configuration file from. 
 
-This role returns a dict variable : **ekara_configuration_params** which contains all configuration.
-
+This role register a dict variable, **ek_config**, which contains validated configuration.
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+None.
 
 Example Playbook
 ----------------
 
-
-    - hosts: localhost
-      roles:
-         - { role: ekara.configuration, config_dir: /opt/inputs }
+```yaml
+- name: Load ekara configuration
+  include_role:
+    name: ekara.config
+  vars:
+    input_dir: /opt/input_dir
+    required_vars:
+      - requiredVar
+    required_env_vars:
+      - REQUIRED_ENV_VAR
+    required_params:
+      - requiredParam
+```
 
 License
 -------
 
 MIT
-
-Author Information
-------------------
-
-https://github.com/ekara-platform/ansible-role-configuration

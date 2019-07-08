@@ -13,11 +13,11 @@
 
 - name: Load ekara config
   include_vars:
-  dir: "{{input_dir}}"
-  depth: 1
-  files_matching:
-    - params.yaml
-  name: ek_config
+    dir: "{{input_dir}}"
+    depth: 1
+    name: ek_config
+    files_matching:
+      - params.yaml
 
 - name: Check required SSH info
   fail: 

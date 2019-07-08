@@ -3,13 +3,13 @@
   fail: 
     msg: "Required play variable '{{item}}' is missing"
   when: item not in vars
-  with_items: {{['input_dir', 'output_dir'] + required_vars}}
+  with_items: "{{['input_dir', 'output_dir'] + required_vars}}"
 
 - name: Check required play environment variables
   fail: 
     msg: "Required environment variable '{{item}}' is missing"
   when: not lookup('env', item)
-  with_items: {{required_env_vars}}
+  with_items: "{{required_env_vars}}"
 
 - name: Load ekara config
   include_vars:
@@ -40,4 +40,4 @@
   fail: 
     msg: "Required ekara input parameter '{{item}}' is missing"
   when: item not in ek_config.params
-  with_items: {{required_params}}
+  with_items: "{{required_params}}"

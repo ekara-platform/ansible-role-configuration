@@ -1,12 +1,12 @@
 ---
 - name: Check required play variables
-  fail: 
+  fail:
     msg: "Required play variable '{{ item }}' is missing"
   when: item not in vars
   with_items: "{{ ['input_dir', 'output_dir'] + (required_vars | default([])) }}"
 
 - name: Check required play environment variables
-  fail: 
+  fail:
     msg: "Required environment variable '{{ item }}' is missing"
   when: not lookup('env', item)
   with_items: "{{ required_env_vars | default([]) }}"
@@ -17,27 +17,27 @@
     depth: 1
     name: ek_config
     files_matching:
-      - params.yaml
+    - params.yaml
 
 - name: Check required SSH info
-  fail: 
+  fail:
     msg: "Required SSH parameter '{{ item }}' is missing"
   when: item not in ek_config.connectionConfig
   with_items:
-    - machine_private_key
-    - machine_public_key
+  - machine_private_key
+  - machine_public_key
 
 - name: Check required environment info
-  fail: 
+  fail:
     msg: "Required environment parameter '{{ item }}' is missing"
   when: item not in ek_config.environment
   with_items:
-    - id
-    - name
-    - qualifier
+  - id
+  - name
+  - qualifier
 
 - name: Check required parameters
-  fail: 
+  fail:
     msg: "Required ekara input parameter '{{ item }}' is missing"
   when: item not in ek_config.params
   with_items: "{{ required_params | default([]) }}"

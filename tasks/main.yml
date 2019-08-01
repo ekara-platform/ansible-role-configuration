@@ -3,13 +3,17 @@
   fail:
     msg: "Required play variable '{{ item }}' is missing"
   when: item not in vars
-  with_items: "{{ ['input_dir', 'output_dir'] + (required_vars | default([])) }}"
+  loop: "{{ ['input_dir', 'output_dir'] + (required_vars | default([])) }}"
+  loop_control:
+    label: "{{ item }}"
 
 - name: Check required play environment variables
   fail:
     msg: "Required environment variable '{{ item }}' is missing"
   when: not lookup('env', item)
-  with_items: "{{ required_env_vars | default([]) }}"
+  loop: "{{ required_env_vars | default([]) }}"
+  loop_control:
+    label: "{{ item }}"
 
 - name: Load ekara config
   include_vars:
@@ -23,21 +27,27 @@
   fail:
     msg: "Required SSH parameter '{{ item }}' is missing"
   when: item not in ek_config.connectionConfig
-  with_items:
+  loop:
   - machine_private_key
   - machine_public_key
+  loop_control:
+    label: "{{ item }}"
 
 - name: Check required environment info
   fail:
     msg: "Required environment parameter '{{ item }}' is missing"
   when: item not in ek_config.environment
-  with_items:
+  loop:
   - id
   - name
   - qualifier
+  loop_control:
+    label: "{{ item }}"
 
 - name: Check required parameters
   fail:
     msg: "Required ekara input parameter '{{ item }}' is missing"
   when: item not in ek_config.params
-  with_items: "{{ required_params | default([]) }}"
+  loop: "{{ required_params | default([]) }}"
+  loop_control:
+    label: "{{ item }}"

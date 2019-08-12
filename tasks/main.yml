@@ -26,10 +26,10 @@
 - name: Check required SSH info
   fail:
     msg: "Required SSH parameter '{{ item }}' is missing"
-  when: item not in ek_config.connectionConfig
+  when: item not in ek_config.ssh
   loop:
-  - machine_private_key
-  - machine_public_key
+  - private_key
+  - public_key
   loop_control:
     label: "{{ item }}"
 
@@ -40,7 +40,6 @@
   loop:
   - id
   - name
-  - qualifier
   loop_control:
     label: "{{ item }}"
 
